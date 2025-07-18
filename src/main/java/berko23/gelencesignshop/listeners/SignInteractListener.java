@@ -41,7 +41,7 @@ public class SignInteractListener implements Listener {
             manager.bindItem(block.getLocation(), inHand);
             player.sendMessage(ChatColor.GREEN + "Shop successfully bound to " + inHand.getType());
         } else {
-            // TODO: később jön a vásárlás/eladás logika
+            // TODO: later here will be the buy/sell logic
         }
     }
 }

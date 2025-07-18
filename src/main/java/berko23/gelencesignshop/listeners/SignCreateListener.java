@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 public class SignCreateListener implements Listener {
+//FIXME: sign protection does not work after creation (it prompts the right click request, but the sign doesn't get waxed)
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
