@@ -1,0 +1,5 @@
+name: GelenceSignShop
+version: '${project.version}'
+main: berko23.gelencesignshop.GelenceSignShop
+api-version: '1.20'
+depend: [Vault]
