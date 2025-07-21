@@ -43,7 +43,6 @@ public class SignCreateListener implements Listener {
 
         event.setLine(0, ChatColor.YELLOW + "[SHOP]");
 
-
         GelenceSignShop.getInstance()
                 .getShopSignManager()
                 .markAsWaiting(event.getBlock().getLocation(), buyPrice, sellPrice);

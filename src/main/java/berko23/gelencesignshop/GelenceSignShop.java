@@ -1,6 +1,7 @@
 package berko23.gelencesignshop;
 
 import berko23.gelencesignshop.economy.EconomyHandler;
+import berko23.gelencesignshop.listeners.ListenerManager;
 import berko23.gelencesignshop.listeners.ShopProtectionListener;
 import berko23.gelencesignshop.listeners.SignCreateListener;
 import berko23.gelencesignshop.listeners.SignInteractListener;
@@ -26,11 +27,14 @@ public class GelenceSignShop extends JavaPlugin {
 
         shopSignManager = new ShopSignManager();
 
-        Bukkit.getPluginManager().registerEvents(new SignCreateListener(), this);
-        Bukkit.getPluginManager().registerEvents(new SignInteractListener(), this);
-        Bukkit.getPluginManager().registerEvents(new ShopProtectionListener(), this);
+        ListenerManager.initListeners(this);
 
         getLogger().info("GelenceSignShop enabled!");
+    }
+
+    @Override
+    public void onDisable() {
+        getLogger().info("Disabling GelenceSignShop");
     }
 
     private boolean setupEconomy() {
