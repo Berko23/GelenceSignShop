@@ -19,6 +19,11 @@ public class PriceParser {
         }
 
         double value = Double.parseDouble(input);
+
+        if (multiplier == 1_000_000_000 && value > 999) {
+            value = 999;
+        }
+
         return value * multiplier;
     }
 
@@ -26,6 +31,6 @@ public class PriceParser {
         if (value >= 1_000_000_000) return String.format("%.1fB", value / 1_000_000_000);
         if (value >= 1_000_000) return String.format("%.1fM", value / 1_000_000);
         if (value >= 1_000) return String.format("%.1fK", value / 1_000);
-        return String.format("%.0f", value);
+        return String.format("%.1f", value);
     }
 }

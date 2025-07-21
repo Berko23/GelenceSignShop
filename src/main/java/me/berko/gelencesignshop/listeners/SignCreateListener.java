@@ -3,14 +3,15 @@ package me.berko.gelencesignshop.listeners;
 import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.util.PriceParser;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.HangingSign;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 public class SignCreateListener implements Listener {
-//FIXME: sign protection does not work after creation (it prompts the right click request, but the sign doesn't get waxed)
-
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
         String line0 = ChatColor.stripColor(event.getLine(0));
@@ -45,7 +46,9 @@ public class SignCreateListener implements Listener {
         }
 
         event.setLine(0, ChatColor.YELLOW + "[SHOP]");
-        String formattedPriceLine = (isBuySign ? "buy: " : "sell: ") + PriceParser.formatPrice(value) + " GV";
+        String formattedPriceLine =
+                ChatColor.YELLOW + (isBuySign ? "buy: " : "sell: ") +
+                ChatColor.RESET + PriceParser.formatPrice(value) + " GV";
         event.setLine(3, formattedPriceLine);
 
         GelenceSignShop.getInstance()

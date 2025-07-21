@@ -45,7 +45,7 @@ public class SignInteractListener implements Listener {
                 return;
             }
 
-            sign.getSide(Side.FRONT).setLine(0, ChatColor.DARK_BLUE + "[SHOP]");
+            sign.getSide(Side.FRONT).setLine(0, ChatColor.BLUE + "[SHOP]");
             sign.update();
             manager.bindItem(block.getLocation(), inHand);
 
