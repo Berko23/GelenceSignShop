@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,7 +36,7 @@ public class SignInteractListener implements Listener {
             return;
         }
 
-        event.setCancelled(true);
+        event.setCancelled(true); // CANCEL the event if hte target is a shop sign
 
         if (shop.isWaiting()) {
             ItemStack inHand = player.getInventory().getItemInMainHand();
@@ -44,10 +45,19 @@ public class SignInteractListener implements Listener {
                 return;
             }
 
-            sign.setLine(0, ChatColor.DARK_BLUE + "[SHOP]");
+            sign.getSide(Side.FRONT).setLine(0, ChatColor.DARK_BLUE + "[SHOP]");
             sign.update();
             manager.bindItem(block.getLocation(), inHand);
-            player.sendMessage(ChatColor.GREEN + "Shop successfully bound to " + inHand.getType());
+
+            // set the sign waxed
+            try {
+                sign.setWaxed(true);
+                sign.update();
+            } catch (NoSuchMethodError | NoClassDefFoundError err) {
+                player.sendMessage(ChatColor.YELLOW + "Warning: Waxing sign not supported on this server version.");
+            }
+
+            player.sendMessage(ChatColor.GREEN + "Shop successfully bound to " + ChatColor.YELLOW + inHand.getType());
         } else {
             // TODO: later here will be the buy/sell logic
         }

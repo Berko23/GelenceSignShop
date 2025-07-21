@@ -1,9 +1,8 @@
 package me.berko.gelencesignshop.listeners;
 
 import me.berko.gelencesignshop.GelenceSignShop;
+import me.berko.gelencesignshop.util.PriceParser;
 import org.bukkit.ChatColor;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,51 +14,50 @@ public class SignCreateListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
         String line0 = ChatColor.stripColor(event.getLine(0));
-        if (line0 == null || !line0.equalsIgnoreCase("[shop]")) {
-            return;
-        }
+        if (line0 == null || !line0.equalsIgnoreCase("[SHOP]")) return;
+
+        String priceLine = event.getLine(3);
+        if (priceLine == null) return;
 
         Player player = event.getPlayer();
 
-        String priceLine = event.getLine(3);
-        Double buyPrice = null;
-        Double sellPrice = null;
+        double value;
+        boolean isBuySign;
+
+        // determine if the shop is buy/sell and get raw price string
+        String rawPrice;
+        if (priceLine.startsWith("buy:")) {
+            isBuySign = true;
+            rawPrice = priceLine.substring(4).trim();
+        } else if (priceLine.startsWith("sell:")) {
+            isBuySign = false;
+            rawPrice = priceLine.substring(5).trim();
+        } else {
+            player.sendMessage(ChatColor.RED + "Line 4 must start with 'buy:' or 'sell:'.");
+            return;
+        }
 
         try {
-            assert priceLine != null;
-            String[] prices = priceLine.trim().split("\\s+");
-            for (String price : prices) {
-                double value = Double.parseDouble(price);
-                if (price.startsWith("-")) {
-                    sellPrice = -value;
-                } else {
-                    buyPrice = value;
-                }
-            }
+            value = PriceParser.parsePrice(rawPrice);
         } catch (NumberFormatException e) {
             player.sendMessage(ChatColor.RED + "Invalid price format on line 4.");
             return;
         }
 
         event.setLine(0, ChatColor.YELLOW + "[SHOP]");
+        String formattedPriceLine = (isBuySign ? "buy: " : "sell: ") + PriceParser.formatPrice(value) + " GV";
+        event.setLine(3, formattedPriceLine);
 
         GelenceSignShop.getInstance()
                 .getShopSignManager()
-                .markAsWaiting(event.getBlock().getLocation(), buyPrice, sellPrice);
-
-        // set the sign waxed
-        BlockState state = event.getBlock().getState();
-        if (state instanceof Sign sign) {
-            try {
-                sign.setWaxed(true);
-                sign.update();
-            } catch (NoSuchMethodError | NoClassDefFoundError err) {
-                player.sendMessage(ChatColor.YELLOW + "Warning: Waxing sign not supported on this server version.");
-            }
-        }
+                .markAsWaiting(event.getBlock().getLocation(), value, isBuySign);
 
         player.sendMessage(ChatColor.GREEN + "Shop sign created! Right-click it with the desired " +
                 ChatColor.YELLOW + "item in your main hand" +
                 ChatColor.GREEN + " to bind.");
+
+        System.out.println("[DEBUG] New sign created for price: " + value + "isBuy: " + isBuySign); // DEBUG
     }
+
+
 }

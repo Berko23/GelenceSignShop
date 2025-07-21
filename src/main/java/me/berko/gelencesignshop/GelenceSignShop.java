@@ -30,7 +30,7 @@ public class GelenceSignShop extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info("Disabling GelenceSignShop");
+        getLogger().info("Disabled GelenceSignShop");
     }
 
     private boolean setupEconomy() {

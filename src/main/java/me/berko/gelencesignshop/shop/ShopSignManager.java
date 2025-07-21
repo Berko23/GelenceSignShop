@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,12 +16,13 @@ public class ShopSignManager {
 
     /**
      * Add the given sign data to the shop sign list.
-     * @param location The sign's location.
-     * @param buyPrice The amount the player pays for an item. If it is null, the item will not be buy-able.
-     * @param sellPrice The amount the player gets for an item. If it is null, the item will not be sell-able.
+     *
+     * @param location  The sign's location.
+     * @param value     The amount the player either pays or gets for an item.
+     * @param isBuySign Set to true if the sign is a buy sign (takes money and gives item), false if it is a sell sign (takes item and gives money).
      */
-    public void markAsWaiting(@Nonnull Location location, @Nullable Double buyPrice, @Nullable Double sellPrice) {
-        shopSigns.put(location, new ShopSign(location, buyPrice, sellPrice, true, null));
+    public void markAsWaiting(@Nonnull Location location, double value, boolean isBuySign) {
+        shopSigns.put(location, new ShopSign(location, value, isBuySign, true, null));
     }
 
     public void bindItem(Location loc, ItemStack item) {

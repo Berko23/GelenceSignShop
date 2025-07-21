@@ -8,15 +8,15 @@ import org.bukkit.inventory.ItemStack;
  */
 public class ShopSign {
     private final Location location;
-    private final Double buyPrice;
-    private final Double sellPrice;
+    private final double value;
+    private  final boolean buySign;
     private boolean isWaiting;
     private ItemStack item;
 
-    public ShopSign(Location loc, double buyPrice, double sellPrice, boolean isWaiting, ItemStack item) {
+    public ShopSign(Location loc, double buyPrice, boolean buySign, boolean isWaiting, ItemStack item) {
         this.location = loc;
-        this.buyPrice = buyPrice;
-        this.sellPrice = sellPrice;
+        this.value = buyPrice;
+        this.buySign = buySign;
         this.isWaiting = isWaiting;
         this.item = item;
     }
@@ -37,12 +37,12 @@ public class ShopSign {
         return item;
     }
 
-    public double getBuyPrice() {
-        return buyPrice;
+    public double getValue() {
+        return value;
     }
 
-    public double getSellPrice() {
-        return sellPrice;
+    public boolean isBuySign() {
+        return buySign;
     }
 
     public Location getLocation() {
