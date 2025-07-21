@@ -18,21 +18,29 @@ public class SignInteractListener implements Listener {
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
 
         Block block = event.getClickedBlock();
-        if (block == null || !(block.getState() instanceof Sign sign)) return;
+        if (block == null || !(block.getState() instanceof Sign sign)) {
+            return;
+        }
 
         ShopSignManager manager = GelenceSignShop.getInstance().getShopSignManager();
         Player player = event.getPlayer();
         ShopSign shop = manager.get(block.getLocation());
 
-        if (shop == null) return;
+        if (shop == null) {
+            return;
+        }
+
+        event.setCancelled(true);
 
         if (shop.isWaiting()) {
             ItemStack inHand = player.getInventory().getItemInMainHand();
             if (inHand.getType() == Material.AIR) {
-                player.sendMessage(ChatColor.RED + "Hold an item to bind to the shop.");
+                player.sendMessage(ChatColor.RED + "Hold an item in your main hand to bind to the shop.");
                 return;
             }
 

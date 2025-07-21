@@ -14,8 +14,14 @@ public class ShopSignManager {
         this.shopSigns = new HashMap<>();
     }
 
-    public void markAsWaiting(Location loc, @Nullable Double buy, @Nullable Double sell) {
-        shopSigns.put(loc, new ShopSign(loc, buy, sell, true, null));
+    /**
+     * Add the given sign data to the shop sign list.
+     * @param location The sign's location.
+     * @param buyPrice The amount the player pays for an item. If it is null, the item will not be buy-able.
+     * @param sellPrice The amount the player gets for an item. If it is null, the item will not be sell-able.
+     */
+    public void markAsWaiting(Location location, @Nullable Double buyPrice, @Nullable Double sellPrice) {
+        shopSigns.put(location, new ShopSign(location, buyPrice, sellPrice, true, null));
     }
 
     public void bindItem(Location loc, ItemStack item) {
