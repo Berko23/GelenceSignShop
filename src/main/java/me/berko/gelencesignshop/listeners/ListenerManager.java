@@ -1,4 +1,4 @@
-package berko23.gelencesignshop.listeners;
+package me.berko.gelencesignshop.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;

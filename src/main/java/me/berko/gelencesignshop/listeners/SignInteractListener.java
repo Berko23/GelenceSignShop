@@ -1,8 +1,8 @@
-package berko23.gelencesignshop.listeners;
+package me.berko.gelencesignshop.listeners;
 
-import berko23.gelencesignshop.GelenceSignShop;
-import berko23.gelencesignshop.shop.ShopSign;
-import berko23.gelencesignshop.shop.ShopSignManager;
+import me.berko.gelencesignshop.GelenceSignShop;
+import me.berko.gelencesignshop.shop.ShopSign;
+import me.berko.gelencesignshop.shop.ShopSignManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

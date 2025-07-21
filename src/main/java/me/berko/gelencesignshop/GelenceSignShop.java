@@ -1,13 +1,9 @@
-package berko23.gelencesignshop;
+package me.berko.gelencesignshop;
 
-import berko23.gelencesignshop.economy.EconomyHandler;
-import berko23.gelencesignshop.listeners.ListenerManager;
-import berko23.gelencesignshop.listeners.ShopProtectionListener;
-import berko23.gelencesignshop.listeners.SignCreateListener;
-import berko23.gelencesignshop.listeners.SignInteractListener;
-import berko23.gelencesignshop.shop.ShopSignManager;
+import me.berko.gelencesignshop.economy.EconomyHandler;
+import me.berko.gelencesignshop.listeners.ListenerManager;
+import me.berko.gelencesignshop.shop.ShopSignManager;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 

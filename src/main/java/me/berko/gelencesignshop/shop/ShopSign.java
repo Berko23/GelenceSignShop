@@ -1,4 +1,4 @@
-package berko23.gelencesignshop.shop;
+package me.berko.gelencesignshop.shop;
 
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;

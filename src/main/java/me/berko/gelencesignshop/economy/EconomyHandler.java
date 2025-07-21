@@ -1,4 +1,4 @@
-package berko23.gelencesignshop.economy;
+package me.berko.gelencesignshop.economy;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
