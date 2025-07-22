@@ -16,12 +16,12 @@ public class TransactionManager {
      * @param itemStack the item(s) to give to the target player
      * @param value     the amount of money to take from the target player
      */
-    public static boolean buyItem(Player player, ItemStack itemStack, double value) {
+    public static void buyItem(Player player, ItemStack itemStack, double value) {
         if (!econ.has(player, value)) {
             player.sendMessage(ChatColor.RED + "You don't have enough money! (you need " +
                     ChatColor.YELLOW + PriceParser.formatPrice(value - econ.getBalance(player)) + " GV" +
                     ChatColor.RED + ")");
-            return false;
+            return;
         }
 
         // Check if there is space for the FULL item stack
@@ -29,10 +29,9 @@ public class TransactionManager {
         int amountToAdd = cloned.getAmount();
 
         int space = getFreeSpaceForItem(player, cloned);
-        System.out.println("Free space: " + space); //DEBUG
         if (space < amountToAdd) {
             player.sendMessage(ChatColor.RED + "Not enough inventory space for this purchase.");
-            return false;
+            return;
         }
 
         // if all ok -> complete transaction
@@ -42,7 +41,6 @@ public class TransactionManager {
                 ChatColor.YELLOW + cloned.getAmount() + "×" + cloned.getType() +
                 ChatColor.GREEN + " for " +
                 ChatColor.YELLOW + PriceParser.formatPrice(value) + " GV.");
-        return true;
     }
 
     /**
@@ -52,21 +50,21 @@ public class TransactionManager {
      * @param itemStack the item(s) to take from the target player
      * @param value     the amount of money to give to the target player
      */
-    public static boolean sellItem(Player player, ItemStack itemStack, double value) {
+    public static void sellItem(Player player, ItemStack itemStack, double value) {
         int requiredAmount = itemStack.getAmount();
         ItemStack checkItem = itemStack.clone();
-        checkItem.setAmount(1); // we don't need the amount for checking
+        checkItem.setAmount(1); // amount is not needed for checking
 
         int found = countSimilarItems(player, checkItem);
         if (found < requiredAmount) {
             player.sendMessage(ChatColor.RED + "You don't have enough items to sell.");
-            return false;
+            return;
         }
 
         boolean removed = removeItems(player, checkItem, requiredAmount);
         if (!removed) {
             player.sendMessage(ChatColor.RED + "Failed to remove items from inventory.");
-            return false;
+            return;
         }
 
         EconomyHandler.deposit(player, value);
@@ -74,7 +72,6 @@ public class TransactionManager {
                 ChatColor.YELLOW + requiredAmount + "×" + itemStack.getType() +
                 ChatColor.GREEN + " for " +
                 ChatColor.YELLOW + PriceParser.formatPrice(value) + " GV.");
-        return true;
     }
 
     private static int getFreeSpaceForItem(Player player, ItemStack item) {

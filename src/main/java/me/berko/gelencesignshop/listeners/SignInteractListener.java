@@ -62,17 +62,9 @@ public class SignInteractListener implements Listener {
             player.sendMessage(ChatColor.GREEN + "Shop successfully bound to " + ChatColor.YELLOW + inHand.getType());
         } else {
             if (shop.isBuySign()) {
-                if(TransactionManager.buyItem(player, shop.getItem(), shop.getValue())) {
-                    System.out.println("> Transaction success");
-                } else {
-                    System.out.println("> Transaction failed");
-                }
+                TransactionManager.buyItem(player, shop.getItem(), shop.getValue());
             } else {
-                if(TransactionManager.sellItem(player, shop.getItem(), shop.getValue())) {
-                    System.out.println("> Transaction success");
-                } else {
-                    System.out.println("> Transaction failed");
-                }
+                TransactionManager.sellItem(player, shop.getItem(), shop.getValue());
             }
         }
     }
