@@ -1,5 +1,38 @@
 package me.berko.gelencesignshop.Commands;
 
-public class SignShopCommand {
-    // TODO: /signshop <command_type> structure
+import me.berko.gelencesignshop.Commands.commandUtils.SubCommand;
+import me.berko.gelencesignshop.Commands.subCommands.HelpSetupCommand;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SignShopCommand implements CommandExecutor {
+
+    private final Map<String, SubCommand> subcommands = new HashMap<>();
+
+    public SignShopCommand() {
+        subcommands.put("helpsetup", new HelpSetupCommand());
+        // később: subcommands.put("reload", new ReloadCommand());
+        System.out.println("test"); //DEBUG
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length == 0) {
+            sender.sendMessage("§eUsage: /signshop <subcommand>");
+            return true;
+        }
+
+        SubCommand sub = subcommands.get(args[0].toLowerCase());
+        if (sub == null) {
+            sender.sendMessage("§cUnknown command: /signshop " + args[0]);
+            return true;
+        }
+
+        sub.execute(sender, args);
+        return true;
+    }
 }

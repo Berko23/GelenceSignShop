@@ -1,9 +1,12 @@
 package me.berko.gelencesignshop;
 
+import me.berko.gelencesignshop.Commands.SignShopCommand;
+import me.berko.gelencesignshop.Commands.tabcompleters.SignShopTabCompleter;
 import me.berko.gelencesignshop.economy.EconomyHandler;
 import me.berko.gelencesignshop.listeners.ListenerManager;
 import me.berko.gelencesignshop.shop.ShopSignManager;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +28,11 @@ public class GelenceSignShop extends JavaPlugin {
         shopSignManager.loadAllSigns();
 
         ListenerManager.initListeners(this);
+
+        SignShopCommand signShopCommand = new SignShopCommand();
+        getCommand("signshop").setExecutor(signShopCommand);
+        TabCompleter tabCompleter = new SignShopTabCompleter();
+        getCommand("signshop").setTabCompleter(tabCompleter);
 
         getLogger().info("GelenceSignShop enabled!");
     }

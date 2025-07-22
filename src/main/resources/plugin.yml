@@ -3,3 +3,7 @@ version: '${project.version}'
 main: me.berko.gelencesignshop.GelenceSignShop
 api-version: '1.20'
 depend: [Vault]
+commands:
+  signshop:
+    description: Main command for SignShop
+    usage: /<command> <subcommand>
