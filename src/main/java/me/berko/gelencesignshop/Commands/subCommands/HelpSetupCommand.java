@@ -4,9 +4,6 @@ import me.berko.gelencesignshop.Commands.commandUtils.SubCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HelpSetupCommand implements SubCommand {
 
     @Override
@@ -15,7 +12,7 @@ public class HelpSetupCommand implements SubCommand {
             return;
         }
 
-        if(args.length <= 1 || args[1].equals("1")) {
+        if (args.length <= 1 || args[1].equals("1")) {
             player.sendMessage("§6=== SignShop Setup Help 1/3 ===");
             player.sendMessage("§6          Basic setup");
             player.sendMessage("§e1. §fPlace a sign anywhere in the world.");
@@ -30,7 +27,7 @@ public class HelpSetupCommand implements SubCommand {
             player.sendMessage("");
             player.sendMessage("§6Use §f/signshop helpsetup 2 §6for more information");
         } else {
-            switch (args[1]){
+            switch (args[1]) {
                 case "2":
                     player.sendMessage("§6=== SignShop Setup Help 2/3 ===");
                     player.sendMessage("§6         Annotations");
