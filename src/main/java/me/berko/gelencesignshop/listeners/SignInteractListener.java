@@ -3,6 +3,7 @@ package me.berko.gelencesignshop.listeners;
 import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.shop.ShopSign;
 import me.berko.gelencesignshop.shop.ShopSignManager;
+import me.berko.gelencesignshop.util.TransactionManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,6 +29,7 @@ public class SignInteractListener implements Listener {
             return;
         }
 
+        // get the shop data (if there is any)
         ShopSignManager manager = GelenceSignShop.getInstance().getShopSignManager();
         Player player = event.getPlayer();
         ShopSign shop = manager.get(block.getLocation());
@@ -59,7 +61,19 @@ public class SignInteractListener implements Listener {
 
             player.sendMessage(ChatColor.GREEN + "Shop successfully bound to " + ChatColor.YELLOW + inHand.getType());
         } else {
-            // TODO: later here will be the buy/sell logic
+            if (shop.isBuySign()) {
+                if(TransactionManager.buyItem(player, shop.getItem(), shop.getValue())) {
+                    System.out.println("> Transaction success");
+                } else {
+                    System.out.println("> Transaction failed");
+                }
+            } else {
+                if(TransactionManager.sellItem(player, shop.getItem(), shop.getValue())) {
+                    System.out.println("> Transaction success");
+                } else {
+                    System.out.println("> Transaction failed");
+                }
+            }
         }
     }
 }

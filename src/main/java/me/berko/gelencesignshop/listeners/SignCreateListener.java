@@ -3,9 +3,6 @@ package me.berko.gelencesignshop.listeners;
 import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.util.PriceParser;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.HangingSign;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,9 +43,15 @@ public class SignCreateListener implements Listener {
         }
 
         event.setLine(0, ChatColor.YELLOW + "[SHOP]");
-        String formattedPriceLine =
-                ChatColor.YELLOW + (isBuySign ? "buy: " : "sell: ") +
-                ChatColor.RESET + PriceParser.formatPrice(value) + " GV";
+
+        String formattedPriceLine;
+        if(isBuySign) {
+            formattedPriceLine = ChatColor.YELLOW + "buy: " +
+                    ChatColor.RESET + (value == 0 ? "FREE" : PriceParser.formatPrice(value) + " GV");
+        } else {
+            formattedPriceLine = ChatColor.YELLOW + "sell: " +
+                    ChatColor.RESET + (value == 0 ? "DONATE" : PriceParser.formatPrice(value) + " GV");
+        }
         event.setLine(3, formattedPriceLine);
 
         GelenceSignShop.getInstance()
@@ -58,8 +61,6 @@ public class SignCreateListener implements Listener {
         player.sendMessage(ChatColor.GREEN + "Shop sign created! Right-click it with the desired " +
                 ChatColor.YELLOW + "item in your main hand" +
                 ChatColor.GREEN + " to bind.");
-
-        System.out.println("[DEBUG] New sign created for price: " + value + "isBuy: " + isBuySign); // DEBUG
     }
 
 
