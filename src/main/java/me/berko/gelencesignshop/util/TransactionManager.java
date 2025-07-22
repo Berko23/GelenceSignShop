@@ -6,22 +6,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-
 public class TransactionManager {
     private static final Economy econ = EconomyHandler.getEconomy();
 
     /**
      * Remove the given value from player's balance (if it has enough) and give it the itemStack.
-     * @param player the target player
+     *
+     * @param player    the target player
      * @param itemStack the item(s) to give to the target player
-     * @param value the amount of money to take from the target player
+     * @param value     the amount of money to take from the target player
      */
     public static boolean buyItem(Player player, ItemStack itemStack, double value) {
         if (!econ.has(player, value)) {
             player.sendMessage(ChatColor.RED + "You don't have enough money! (you need " +
                     ChatColor.YELLOW + PriceParser.formatPrice(value - econ.getBalance(player)) + " GV" +
-                    ChatColor.RED +")");
+                    ChatColor.RED + ")");
             return false;
         }
 
@@ -48,9 +47,10 @@ public class TransactionManager {
 
     /**
      * Remove the itemStack from player (if it has it) and add the value to its balance.
-     * @param player the target player
+     *
+     * @param player    the target player
      * @param itemStack the item(s) to take from the target player
-     * @param value the amount of money to give to the target player
+     * @param value     the amount of money to give to the target player
      */
     public static boolean sellItem(Player player, ItemStack itemStack, double value) {
         int requiredAmount = itemStack.getAmount();
