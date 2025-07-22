@@ -17,6 +17,9 @@ public class ShopSignManager {
         this.shopSigns = new HashMap<>();
     }
 
+    /**
+     *  Load/Reload all shop signs from save file
+     */
     public void loadAllSigns() {
         shopSigns.clear();
         Map<String, ShopSign> loaded = storage.loadAll();
@@ -49,6 +52,7 @@ public class ShopSignManager {
     }
 
     public void remove(Location loc) {
+        storage.removeSign(loc);
         shopSigns.remove(loc);
     }
 }

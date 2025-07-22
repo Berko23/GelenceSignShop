@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class YamlSignStorage implements SignStorageFactory {
 
@@ -41,8 +42,8 @@ public class YamlSignStorage implements SignStorageFactory {
     }
 
     @Override
-    public void removeSign(ShopSign sign) {
-        String key = serializeLocation(sign.getLocation());
+    public void removeSign(Location loc) {
+        String key = serializeLocation(loc);
         config.set(key, null);
         saveToFile();
     }
@@ -69,12 +70,12 @@ public class YamlSignStorage implements SignStorageFactory {
         try {
             config.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            GelenceSignShop.getInstance().getLogger().warning("Failed to save into signs.yml. " + e);
         }
     }
 
     private String serializeLocation(Location loc) {
-        return loc.getWorld().getName() + "," + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ();
+        return Objects.requireNonNull(loc.getWorld()).getName() + "," + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ();
     }
 
     private Location deserializeLocation(String str) {

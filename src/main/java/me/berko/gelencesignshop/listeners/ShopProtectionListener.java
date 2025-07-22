@@ -27,8 +27,8 @@ public class ShopProtectionListener implements Listener {
             Player player = event.getPlayer();
 
             if (isHoldingGoldAxe(player)) {
-                manager.remove(loc);
                 player.sendMessage(ChatColor.YELLOW + "Shop sign removed.");
+                manager.remove(loc); // remove from file too
                 return;
             }
 
