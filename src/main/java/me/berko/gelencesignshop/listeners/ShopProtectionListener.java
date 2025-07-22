@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,7 +37,7 @@ public class ShopProtectionListener implements Listener {
             String[] lines = new String[4];
             BlockState state = block.getState();
             if (state instanceof Sign signBefore) {
-                lines = signBefore.getLines().clone();
+                lines = signBefore.getSide(Side.FRONT).getLines().clone();
             }
 
             event.setCancelled(true);
@@ -48,7 +49,7 @@ public class ShopProtectionListener implements Listener {
                 BlockState newState = block.getState();
                 if (newState instanceof Sign signAfter) {
                     for (int i = 0; i < 4; i++) {
-                        signAfter.setLine(i, finalLines[i]);
+                        signAfter.getSide(Side.FRONT).setLine(i, finalLines[i]);
                     }
                     signAfter.update();
                 }

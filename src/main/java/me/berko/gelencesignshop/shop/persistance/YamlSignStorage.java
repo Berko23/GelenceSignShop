@@ -20,14 +20,20 @@ public class YamlSignStorage implements SignStorageFactory {
 
     public YamlSignStorage() {
         file = new File(GelenceSignShop.getInstance().getDataFolder(), "signs.yml");
-        if (!file.exists()) {
-            try {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to create signs.yml", e);
+        File folder = file.getParentFile();
+
+        try {
+            if (!folder.exists() && !folder.mkdirs()) {
+                throw new IOException("Failed to create plugin data folder: " + folder.getAbsolutePath());
             }
+
+            if (!file.exists() && !file.createNewFile()) {
+                throw new IOException("Failed to create signs.yml file.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to initialize signs.yml", e);
         }
+
         config = YamlConfiguration.loadConfiguration(file);
     }
 
