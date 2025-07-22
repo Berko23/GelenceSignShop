@@ -22,6 +22,7 @@ public class GelenceSignShop extends JavaPlugin {
         }
 
         shopSignManager = new ShopSignManager();
+        shopSignManager.loadAllSigns();
 
         ListenerManager.initListeners(this);
 

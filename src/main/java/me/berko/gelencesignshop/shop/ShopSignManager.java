@@ -1,5 +1,7 @@
 package me.berko.gelencesignshop.shop;
 
+import me.berko.gelencesignshop.shop.persistance.SignStorageFactory;
+import me.berko.gelencesignshop.shop.persistance.YamlSignStorage;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,20 +11,24 @@ import java.util.Map;
 
 public class ShopSignManager {
     private final Map<Location, ShopSign> shopSigns;
+    private final SignStorageFactory storage = new YamlSignStorage(); // uses the yaml saving model
 
     public ShopSignManager() {
         this.shopSigns = new HashMap<>();
     }
 
-    /**
-     * Add the given sign data to the shop sign list.
-     *
-     * @param location  The sign's location.
-     * @param value     The amount the player either pays or gets for an item.
-     * @param isBuySign Set to true if the sign is a buy sign (takes money and gives item), false if it is a sell sign (takes item and gives money).
-     */
+    public void loadAllSigns() {
+        shopSigns.clear();
+        Map<String, ShopSign> loaded = storage.loadAll();
+        for (ShopSign sign : loaded.values()) {
+            shopSigns.put(sign.getLocation(), sign);
+        }
+    }
+
     public void markAsWaiting(@Nonnull Location location, double value, boolean isBuySign) {
-        shopSigns.put(location, new ShopSign(location, value, isBuySign, true, null));
+        ShopSign sign = new ShopSign(location, value, isBuySign, true, null);
+        shopSigns.put(location, sign);
+        storage.saveSign(sign); // save to file
     }
 
     public void bindItem(Location loc, ItemStack item) {
@@ -30,6 +36,7 @@ public class ShopSignManager {
         if (shop != null && shop.isWaiting()) {
             shop.setItem(item.clone());
             shop.setWaiting(false);
+            storage.saveSign(shop); // resave to file
         }
     }
 
