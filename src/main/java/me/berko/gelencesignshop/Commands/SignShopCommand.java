@@ -24,7 +24,7 @@ public class SignShopCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage("§eUsage: /signshop <subcommand>");
+            sender.sendMessage("§eUsage: /signshop <subcommand> (use '/signshop help' for more information)");
             return true;
         }
 
