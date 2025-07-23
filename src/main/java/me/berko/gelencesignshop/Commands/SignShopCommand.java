@@ -1,6 +1,8 @@
 package me.berko.gelencesignshop.Commands;
 
 import me.berko.gelencesignshop.Commands.commandUtils.SubCommand;
+import me.berko.gelencesignshop.Commands.subCommands.DataCheckCommand;
+import me.berko.gelencesignshop.Commands.subCommands.DataFixCommand;
 import me.berko.gelencesignshop.Commands.subCommands.HelpSetupCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,8 +17,8 @@ public class SignShopCommand implements CommandExecutor {
 
     public SignShopCommand() {
         subcommands.put("helpsetup", new HelpSetupCommand());
-        // később: subcommands.put("reload", new ReloadCommand());
-        System.out.println("test"); //DEBUG
+        subcommands.put("datafix", new DataFixCommand());
+        subcommands.put("datacheck", new DataCheckCommand());
     }
 
     @Override

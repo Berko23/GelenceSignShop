@@ -1,13 +1,15 @@
 package me.berko.gelencesignshop.shop;
 
+import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.shop.persistance.SignStorageFactory;
 import me.berko.gelencesignshop.shop.persistance.YamlSignStorage;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Sign;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ShopSignManager {
     private final Map<Location, ShopSign> shopSigns;
@@ -54,5 +56,41 @@ public class ShopSignManager {
     public void remove(Location loc) {
         storage.removeSign(loc);
         shopSigns.remove(loc);
+    }
+
+    public int removeInvalidShops() {
+        loadAllSigns();
+
+        int removed = 0;
+        Iterator<Map.Entry<Location, ShopSign>> iterator = shopSigns.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<Location, ShopSign> entry = iterator.next();
+            Location loc = entry.getKey();
+
+            if (!(loc.getBlock().getState() instanceof Sign)) {
+                iterator.remove();
+                storage.removeSign(loc);
+                Bukkit.getLogger().info("[GelenceSignShop] Removed orphan shop at " +
+                        Objects.requireNonNull(loc.getWorld()).getName() + ":" + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ());
+                removed++;
+            }
+        }
+
+        loadAllSigns();
+        return removed;
+    }
+
+    public List<Location> getInvalidShopLocations() {
+        List<Location> invalid = new ArrayList<>();
+
+        for (Map.Entry<Location, ShopSign> entry : shopSigns.entrySet()) {
+            Location loc = entry.getKey();
+            if (!(loc.getBlock().getState() instanceof Sign)) {
+                invalid.add(loc);
+            }
+        }
+
+        return invalid;
     }
 }
