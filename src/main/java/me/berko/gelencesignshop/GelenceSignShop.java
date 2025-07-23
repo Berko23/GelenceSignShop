@@ -10,6 +10,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public class GelenceSignShop extends JavaPlugin {
     private static GelenceSignShop instance;
     private ShopSignManager shopSignManager;
@@ -30,9 +32,9 @@ public class GelenceSignShop extends JavaPlugin {
         ListenerManager.initListeners(this);
 
         SignShopCommand signShopCommand = new SignShopCommand();
-        getCommand("signshop").setExecutor(signShopCommand);
+        Objects.requireNonNull(getCommand("signshop")).setExecutor(signShopCommand);
         TabCompleter tabCompleter = new SignShopTabCompleter();
-        getCommand("signshop").setTabCompleter(tabCompleter);
+        Objects.requireNonNull(getCommand("signshop")).setTabCompleter(tabCompleter);
 
         getLogger().info("GelenceSignShop enabled!");
     }

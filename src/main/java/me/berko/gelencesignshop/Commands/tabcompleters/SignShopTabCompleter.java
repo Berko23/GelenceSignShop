@@ -1,9 +1,7 @@
 package me.berko.gelencesignshop.Commands.tabcompleters;
 
 import me.berko.gelencesignshop.Commands.commandUtils.SubCommand;
-import me.berko.gelencesignshop.Commands.subCommands.DataCheckCommand;
-import me.berko.gelencesignshop.Commands.subCommands.DataFixCommand;
-import me.berko.gelencesignshop.Commands.subCommands.HelpSetupCommand;
+import me.berko.gelencesignshop.Commands.subCommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -15,7 +13,9 @@ public class SignShopTabCompleter implements TabCompleter {
     private final Map<String, SubCommand> subcommands = new HashMap<>();
 
     public SignShopTabCompleter() {
+        subcommands.put("help", new HelpCommand());
         subcommands.put("helpsetup", new HelpSetupCommand());
+        subcommands.put("datareload", new DataReloadCommand());
         subcommands.put("datafix", new DataFixCommand());
         subcommands.put("datacheck", new DataCheckCommand());
     }
