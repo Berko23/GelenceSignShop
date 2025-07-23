@@ -7,13 +7,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShopProtectionListener implements Listener {
 
@@ -57,7 +63,61 @@ public class ShopProtectionListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onSignHolderBreak(BlockBreakEvent event) {
+        Block brokenBlock = event.getBlock();
+
+        // check if the block on top is a sign shop
+        Block blockAbove = brokenBlock.getRelative(BlockFace.UP);
+        if(manager.isShop(blockAbove.getLocation())) {
+            BlockState state = blockAbove.getState();
+
+            // Check if the block above is a standing sign (not a wall sign)
+            if (state instanceof Sign sign && !(sign.getBlockData() instanceof WallSign)) {
+                event.setCancelled(true);
+                sendPlayerMessage(event.getPlayer());
+                return;
+            }
+        }
+
+        List<BlockFace> sides = new ArrayList<>();
+        sides.add(BlockFace.NORTH);
+        sides.add(BlockFace.EAST);
+        sides.add(BlockFace.SOUTH);
+        sides.add(BlockFace.WEST);
+
+        // Check the 4 sides for wall sign-shops
+        for (BlockFace face : sides) {
+            Block relative = brokenBlock.getRelative(face);
+            if(!manager.isShop(relative.getLocation())){     // skip if the adjacent block is not a shop
+                continue;
+            }
+
+            BlockState state = relative.getState();
+            if (state instanceof Sign signState) {
+                BlockData data = signState.getBlockData();
+
+                // We only care about wall signs (attached to blocks)
+                if (data instanceof WallSign wallSign) {
+                    // Check if the sign is attached to the broken block
+                    BlockFace attachedTo = wallSign.getFacing().getOppositeFace();
+                    if (relative.getRelative(attachedTo).equals(brokenBlock)) {
+                        event.setCancelled(true);
+                        sendPlayerMessage(event.getPlayer());
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+
+
     private boolean isHoldingGoldAxe(Player player) {
         return player.getInventory().getItemInMainHand().getType() == Material.GOLDEN_AXE;
+    }
+
+    private void sendPlayerMessage(Player p){
+        p.sendMessage(ChatColor.RED + "You can't break a block, that is holding a shop sign!");
     }
 }
