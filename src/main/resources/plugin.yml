@@ -2,7 +2,7 @@ name: GelenceSignShop
 version: '${project.version}'
 main: me.berko.gelencesignshop.GelenceSignShop
 api-version: '1.20'
-depend: [Vault]
+depend: [Vault, Essentials]
 commands:
   signshop:
     description: Main command for SignShop
