@@ -9,6 +9,7 @@ public class ListenerManager {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new SignCreateListener(), plugin);
         pm.registerEvents(new SignInteractListener(), plugin);
+        pm.registerEvents(new SignCopyPasteListener(), plugin);
         pm.registerEvents(new ShopProtectionListener(), plugin);
     }
 }
