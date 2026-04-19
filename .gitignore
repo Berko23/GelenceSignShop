@@ -95,7 +95,12 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-target/
+# Gradle (replaces Maven target/)
+build/
+.gradle/
+
+# Maven-specific (legacy)
+# target/
 
 pom.xml.tag
 pom.xml.releaseBackup
