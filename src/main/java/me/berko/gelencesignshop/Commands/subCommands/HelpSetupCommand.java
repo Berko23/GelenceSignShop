@@ -16,8 +16,8 @@ public class HelpSetupCommand implements SubCommand {
             player.sendMessage("§6=== SignShop Setup Help 1/3 ===");
             player.sendMessage("§6          Basic setup");
             player.sendMessage("§e1. §fPlace a sign anywhere in the world.");
-            player.sendMessage("§e2. §fWrite in the 1st line: §b[shop]");
-            player.sendMessage("§e3. §fThe 2nd and 3rd lines are optional (you can write anything you want)");
+            player.sendMessage("§e2. §f1st line: §b[shop]");
+            player.sendMessage("§e3. §f2nd and 3rd lines are optional (you can write anything you want)");
             player.sendMessage("§e4. §fWrite the price in the 4th line:");
             player.sendMessage("    §7example: §abuy: 123 §7or §csell: 500.5");
             player.sendMessage("    §7note: A sign can only buy or only sell.");

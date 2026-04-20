@@ -35,9 +35,20 @@ public class SignShopTabCompleter implements TabCompleter {
         }
 
         if (args.length > 1) {
-            List<String> nothing = new ArrayList<>();
-            nothing.add("");
-            return nothing;
+            List<String> arg2 = new ArrayList<>();
+
+            if(args[0].equals("helpsetup")) {
+                String partial = args[1].toLowerCase();
+                List<String> options = Arrays.asList("1", "2", "3");
+                for(String option : options) {
+                    if(option.startsWith(partial)) {
+                        arg2.add(option);
+                    }
+                }
+            }
+
+            arg2.add("");
+            return arg2;
         }
 
         return Collections.emptyList();
