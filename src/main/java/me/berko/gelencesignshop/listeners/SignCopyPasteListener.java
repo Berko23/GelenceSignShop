@@ -4,7 +4,6 @@ import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.util.PriceParser;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.HangingSign;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
@@ -21,12 +20,10 @@ public class SignCopyPasteListener implements Listener {
 
             // ignore if line 1 doesn't say "[shop]" (case-insensitive)
             String line1 = stripColors(sign.getSide(Side.FRONT).getLine(0));
-            System.out.println("DEBUG: Line 1 of placed sign: " + line1);   // DEBUG
             if (!line1.equalsIgnoreCase("[shop]")) return;
 
             // validate line 4
             String line4 = stripColors(sign.getSide(Side.FRONT).getLine(3));
-            System.out.println("DEBUG: Line 4 of placed sign: " + line4);   // DEBUG
             if (!isValidLine4(line4)) return;
 
             // If everything is valid, register new sign and mark as waiting for item binding
@@ -37,6 +34,7 @@ public class SignCopyPasteListener implements Listener {
             // Reformat line 1 after a short delay to ensure it overwrites any copied text.
             Bukkit.getScheduler().runTaskLater(GelenceSignShop.getInstance(), () -> {
                 sign.getSide(Side.FRONT).setLine(0, ChatColor.YELLOW + "[SHOP]");
+                sign.update();
             }, 4L); // 4 tick delay
 
             // Send success message to player
