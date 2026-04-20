@@ -1,9 +1,14 @@
 name: GelenceSignShop
-version: '${project.version}'
+description: $description
+version: ${version}
+
 main: me.berko.gelencesignshop.GelenceSignShop
 api-version: '1.20'
+
 depend: [Vault, Essentials]
+
 commands:
   signshop:
     description: Main command for SignShop
     usage: /<command> <subcommand> (use /<command> help for more information)
+    aliases: [ss]

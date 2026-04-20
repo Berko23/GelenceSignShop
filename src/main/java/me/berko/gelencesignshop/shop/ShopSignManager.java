@@ -30,6 +30,12 @@ public class ShopSignManager {
         }
     }
 
+    /**
+     * Register a new sign and mark as waiting for item binding. This is called when a sign is first created and validated, but before the player has selected an item.
+     * @param location The location of the sign
+     * @param value The buy/sell price
+     * @param isBuySign Whether this is a buy or sell sign
+     */
     public void markAsWaiting(@Nonnull Location location, double value, boolean isBuySign) {
         ShopSign sign = new ShopSign(location, value, isBuySign, true, null);
         shopSigns.put(location, sign);
