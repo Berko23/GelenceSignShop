@@ -27,6 +27,7 @@ public class SignShopTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
+            // `partial` is what the player already typed for arg #1; we suggest commands starting with it.
             String partial = args[0].toLowerCase();
             return subcommands.keySet().stream()
                     .filter(cmd -> cmd.startsWith(partial))
@@ -38,6 +39,7 @@ public class SignShopTabCompleter implements TabCompleter {
             List<String> arg2 = new ArrayList<>();
 
             if(args[0].equals("helpsetup")) {
+                // For `/signshop helpsetup <page>`, `partial` is the currently typed page fragment.
                 String partial = args[1].toLowerCase();
                 List<String> options = Arrays.asList("1", "2", "3");
                 for(String option : options) {

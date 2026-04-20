@@ -8,5 +8,5 @@ import java.util.Map;
 public interface SignStorageFactory {
     void saveSign(ShopSign sign);
     void removeSign(Location loc);
-    Map<String, ShopSign> loadAll(); // string key = Location serialization
+    Map<Location, ShopSign> loadAll();
 }

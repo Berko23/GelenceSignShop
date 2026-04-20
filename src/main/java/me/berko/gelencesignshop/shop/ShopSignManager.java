@@ -24,10 +24,7 @@ public class ShopSignManager {
      */
     public void loadAllSigns() {
         shopSigns.clear();
-        Map<String, ShopSign> loaded = storage.loadAll();
-        for (ShopSign sign : loaded.values()) {
-            shopSigns.put(sign.getLocation(), sign);
-        }
+        shopSigns.putAll(storage.loadAll());
     }
 
     /**
@@ -49,6 +46,39 @@ public class ShopSignManager {
             shop.setWaiting(false);
             storage.saveSign(shop); // resave to file
         }
+    }
+
+    /**
+     * Unbind the item from the shop and mark it as waiting again. This can be used to reset a shop sign if the owner wants to change the item being sold/bought.
+     * @param shop The shop sign to unbind
+     */
+    public void unbindItem(ShopSign shop) {
+        shop.setItem(null);
+        shop.setWaiting(true);
+        shopSigns.put(shop.getLocation(), shop); // update in loaded memory
+        storage.saveSign(shop); // resave to file
+    }
+
+    /**
+     * Change the buy/sell price of a shop sign. This can be used for admin adjustments or if you want to implement a feature for shop owners to change their prices.
+     * @param shop The shop sign to update
+     * @param newValue The new buy/sell price
+     */
+    public void changeValue(ShopSign shop, double newValue) {
+        shop.setValue(newValue);
+        shopSigns.put(shop.getLocation(), shop); // update in loaded memory
+        storage.saveSign(shop);
+    }
+
+    /**
+     * Change whether a shop sign is a buy or sell sign. This can be used for admin adjustments or if you want to implement a feature for shop owners to switch between buying and selling.
+     * @param shop The shop sign to update
+     * @param isBuySign Whether the sign should be a buy sign (true) or sell sign (false)
+     */
+    public void changeBuySell(ShopSign shop, boolean isBuySign) {
+        shop.setBuySign(isBuySign);
+        shopSigns.put(shop.getLocation(), shop); // update in loaded memory
+        storage.saveSign(shop);
     }
 
     public ShopSign get(Location loc) {

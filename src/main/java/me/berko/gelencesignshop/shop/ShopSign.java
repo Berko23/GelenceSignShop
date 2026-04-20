@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
  */
 public class ShopSign {
     private final Location location;
-    private final double value;
-    private  final boolean buySign;
+    private double value;
+    private boolean buySign;
     private boolean isWaiting;
     private ItemStack item;
 
@@ -41,8 +41,16 @@ public class ShopSign {
         return value;
     }
 
+    public void setValue(double value) {
+        this.value = value;
+    }
+
     public boolean isBuySign() {
         return buySign;
+    }
+
+    public void setBuySign(boolean buySign) {
+        this.buySign = buySign;
     }
 
     public Location getLocation() {
