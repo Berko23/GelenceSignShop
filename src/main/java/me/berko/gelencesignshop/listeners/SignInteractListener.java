@@ -3,6 +3,7 @@ package me.berko.gelencesignshop.listeners;
 import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.shop.ShopSign;
 import me.berko.gelencesignshop.shop.ShopSignManager;
+import me.berko.gelencesignshop.util.SignDisplayManager;
 import me.berko.gelencesignshop.util.TransactionManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -47,9 +48,9 @@ public class SignInteractListener implements Listener {
                 return;
             }
 
-            sign.getSide(Side.FRONT).setLine(0, ChatColor.BLUE + "[SHOP]");
-            sign.update();
             manager.bindItem(block.getLocation(), inHand);
+
+            SignDisplayManager.updateSign(shop);
 
             // set the sign waxed
             try {

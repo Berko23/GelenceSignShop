@@ -50,6 +50,8 @@ public class ShopProtectionListener implements Listener {
             player.sendMessage(ChatColor.RED + "You can't break this shop sign!");
 
             // rewrite text
+            // CAN NOT use SignDisplayManager here, because this function needs different logic for
+            //     saving the text before the break and rewriting it after the break.
             String[] finalLines = lines;
             Bukkit.getScheduler().runTaskLater(GelenceSignShop.getInstance(), () -> {
                 BlockState newState = block.getState();

@@ -1,7 +1,9 @@
 package me.berko.gelencesignshop.listeners;
 
 import me.berko.gelencesignshop.GelenceSignShop;
+import me.berko.gelencesignshop.shop.ShopSign;
 import me.berko.gelencesignshop.util.PriceParser;
+import me.berko.gelencesignshop.util.SignDisplayManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.HangingSign;
@@ -27,15 +29,13 @@ public class SignCopyPasteListener implements Listener {
             if (!isValidLine4(line4)) return;
 
             // If everything is valid, register new sign and mark as waiting for item binding
+            ShopSign newShop = new ShopSign(event.getBlock().getLocation(), extractPrice(line4), isBuySign(line4));
             GelenceSignShop.getInstance()
                     .getShopSignManager()
-                    .markAsWaiting(event.getBlock().getLocation(), extractPrice(line4), isBuySign(line4));
+                    .markAsWaiting(newShop);
 
             // Reformat line 1 after a short delay to ensure it overwrites any copied text.
-            Bukkit.getScheduler().runTaskLater(GelenceSignShop.getInstance(), () -> {
-                sign.getSide(Side.FRONT).setLine(0, ChatColor.YELLOW + "[SHOP]");
-                sign.update();
-            }, 4L); // 4 tick delay
+            SignDisplayManager.updateSign(newShop);
 
             // Send success message to player
             event.getPlayer().sendMessage(ChatColor.GREEN + "Shop sign pasted successfully! Right-click it with the desired " +

@@ -1,6 +1,5 @@
 package me.berko.gelencesignshop.shop;
 
-import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.shop.persistance.SignStorageFactory;
 import me.berko.gelencesignshop.shop.persistance.YamlSignStorage;
 import org.bukkit.Bukkit;
@@ -13,7 +12,7 @@ import java.util.*;
 
 public class ShopSignManager {
     private final Map<Location, ShopSign> shopSigns;
-    private final SignStorageFactory storage = new YamlSignStorage(); // uses the yaml saving model
+    private final SignStorageFactory storage = new YamlSignStorage(); // uses the Yaml saving model
 
     public ShopSignManager() {
         this.shopSigns = new HashMap<>();
@@ -33,10 +32,19 @@ public class ShopSignManager {
      * @param value The buy/sell price
      * @param isBuySign Whether this is a buy or sell sign
      */
+    @Deprecated
     public void markAsWaiting(@Nonnull Location location, double value, boolean isBuySign) {
         ShopSign sign = new ShopSign(location, value, isBuySign, true, null);
         shopSigns.put(location, sign);
         storage.saveSign(sign); // save to file
+    }
+
+
+    public void markAsWaiting(@Nonnull ShopSign shop) {
+        shop.setWaiting(true);
+        shop.setItem(null);
+        shopSigns.put(shop.getLocation(), shop);
+        storage.saveSign(shop); // save to file
     }
 
     public void bindItem(Location loc, ItemStack item) {
