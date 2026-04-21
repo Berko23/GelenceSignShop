@@ -37,6 +37,10 @@ At that point the sign is bound and players can use it.
 - `/signshop help` - show command help in chat
 - `/signshop helpsetup [1|2|3]` - show setup guide pages
 - `/signshop edit` - allows editing existing shop signs
+  - `price` - change the shop price
+  - `buysell` - switch the shop between buy and sell mode
+  - `item` - rebind the shop to the item in your main hand
+  - `help` - show edit command help
 - `/signshop datareload` - reload all shop signs from `signs.yml`
 - `/signshop datacheck` - list invalid saved shop locations (saved, but no sign exists there)
 - `/signshop datafix` - remove invalid saved shop locations

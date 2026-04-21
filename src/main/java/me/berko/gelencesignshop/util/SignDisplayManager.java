@@ -32,7 +32,7 @@ public class SignDisplayManager {
 
     /**
      * Update the sign text (relevant to shop functions) for the given shop sign. This will not update line 2 or line 3.
-     * WARNING: This function requires the sign block to be fully updated and contain the desired text on al lines.
+     * WARNING: This function requires the sign block to be fully updated and contain the desired text on all lines.
      * (the function updates the whole sign, and overrides the SignChangeEvent update)
      * @param shop The shop sign to update
      */

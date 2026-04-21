@@ -74,11 +74,12 @@ public class ShopSignManager {
      * @param shop The shop sign to update
      * @param newValue The new buy/sell price
      */
+    // TODO: changing the value to a price like 999999 produces 1000.0k on sign (rounding to 2 decimal places did not fix this)
     public void changeValue(ShopSign shop, double newValue) {
         shop.setValue(newValue);
         shopSigns.put(shop.getLocation(), shop); // update in loaded memory
         storage.saveSign(shop);
-        SignDisplayManager.updateSign(shop); // update the sign text to reflect the new price
+        SignDisplayManager.updateSign(shop); // update the sign text to reflect the updated shop state
     }
 
     /**

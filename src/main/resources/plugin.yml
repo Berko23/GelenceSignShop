@@ -1,6 +1,6 @@
 name: GelenceSignShop
 description: $description
-version: ${version}
+version: $version
 
 main: me.berko.gelencesignshop.GelenceSignShop
 api-version: '1.20'

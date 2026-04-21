@@ -82,6 +82,11 @@ public class EditCommand implements SubCommand {
             return;
         }
 
+        if (!PriceParser.isValidPrice(newPrice)) {
+            sender.sendMessage(ChatColor.RED + "Price must be between 0 and 99,999,999,999.99.");
+            return;
+        }
+
         shopManager.changeValue(shop, newPrice);
     }
 

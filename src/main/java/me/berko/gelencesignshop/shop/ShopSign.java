@@ -3,9 +3,6 @@ package me.berko.gelencesignshop.shop;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 /**
  * The logic of a single shop instance
  */

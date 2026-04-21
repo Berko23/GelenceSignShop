@@ -23,11 +23,10 @@ public class SignCreateListener implements Listener {
 
         Player player = event.getPlayer();
 
-        double value;
-        boolean isBuySign;
 
         // determine if the shop is buy/sell and get raw price string
         String rawPrice;
+        boolean isBuySign;
         if (priceLine.startsWith("buy:")) {
             isBuySign = true;
             rawPrice = priceLine.substring(4).trim();
@@ -39,10 +38,16 @@ public class SignCreateListener implements Listener {
             return;
         }
 
+        double value;
         try {
             value = PriceParser.parsePrice(rawPrice);
         } catch (NumberFormatException e) {
             player.sendMessage(ChatColor.RED + "Invalid price format on line 4.");
+            return;
+        }
+
+        if(!PriceParser.isValidPrice(value)) {
+            player.sendMessage(ChatColor.RED + "Price must be between 0 and 99,999,999,999.99.");
             return;
         }
 

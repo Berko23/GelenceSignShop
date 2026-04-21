@@ -4,7 +4,6 @@ import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.shop.ShopSign;
 import me.berko.gelencesignshop.util.PriceParser;
 import me.berko.gelencesignshop.util.SignDisplayManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.HangingSign;
 import org.bukkit.block.Sign;
