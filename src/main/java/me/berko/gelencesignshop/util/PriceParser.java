@@ -33,4 +33,8 @@ public class PriceParser {
         if (value >= 1_000) return String.format("%.1fK", value / 1_000);
         return String.format("%.1f", value);
     }
+
+    public static boolean isValidPrice(double price) {
+        return price >= 0.00 && price <= 99_999_999_999.99;
+    }
 }

@@ -1,8 +1,8 @@
 package me.berko.gelencesignshop.shop;
 
-import me.berko.gelencesignshop.GelenceSignShop;
 import me.berko.gelencesignshop.shop.persistance.SignStorageFactory;
 import me.berko.gelencesignshop.shop.persistance.YamlSignStorage;
+import me.berko.gelencesignshop.util.SignDisplayManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
@@ -13,7 +13,7 @@ import java.util.*;
 
 public class ShopSignManager {
     private final Map<Location, ShopSign> shopSigns;
-    private final SignStorageFactory storage = new YamlSignStorage(); // uses the yaml saving model
+    private final SignStorageFactory storage = new YamlSignStorage(); // uses the Yaml saving model
 
     public ShopSignManager() {
         this.shopSigns = new HashMap<>();
@@ -24,10 +24,7 @@ public class ShopSignManager {
      */
     public void loadAllSigns() {
         shopSigns.clear();
-        Map<String, ShopSign> loaded = storage.loadAll();
-        for (ShopSign sign : loaded.values()) {
-            shopSigns.put(sign.getLocation(), sign);
-        }
+        shopSigns.putAll(storage.loadAll());
     }
 
     /**
@@ -36,10 +33,19 @@ public class ShopSignManager {
      * @param value The buy/sell price
      * @param isBuySign Whether this is a buy or sell sign
      */
+    @Deprecated
     public void markAsWaiting(@Nonnull Location location, double value, boolean isBuySign) {
         ShopSign sign = new ShopSign(location, value, isBuySign, true, null);
         shopSigns.put(location, sign);
         storage.saveSign(sign); // save to file
+    }
+
+
+    public void markAsWaiting(@Nonnull ShopSign shop) {
+        shop.setWaiting(true);
+        shop.setItem(null);
+        shopSigns.put(shop.getLocation(), shop);
+        storage.saveSign(shop); // save to file
     }
 
     public void bindItem(Location loc, ItemStack item) {
@@ -51,7 +57,44 @@ public class ShopSignManager {
         }
     }
 
-    public ShopSign get(Location loc) {
+    /**
+     * Unbind the item from the shop and mark it as waiting again. This updates the sign block's display text too.
+     * @param shop The shop sign to unbind
+     */
+    public void unbindItem(ShopSign shop) {
+        shop.setItem(null);
+        shop.setWaiting(true);
+        shopSigns.put(shop.getLocation(), shop); // update in loaded memory
+        storage.saveSign(shop); // resave to file
+        SignDisplayManager.updateSign(shop); // update the sign text to reflect the new price
+    }
+
+    /**
+     * Change the buy/sell price of a shop sign and update the sign block's display text.
+     * @param shop The shop sign to update
+     * @param newValue The new buy/sell price
+     */
+    // TODO: changing the value to a price like 999999 produces 1000.0k on sign (rounding to 2 decimal places did not fix this)
+    public void changeValue(ShopSign shop, double newValue) {
+        shop.setValue(newValue);
+        shopSigns.put(shop.getLocation(), shop); // update in loaded memory
+        storage.saveSign(shop);
+        SignDisplayManager.updateSign(shop); // update the sign text to reflect the updated shop state
+    }
+
+    /**
+     * Change whether a shop sign is a buy or sell sign and update the sign block's display text.
+     * @param shop The shop sign to update
+     * @param isBuySign Whether the sign should be a buy sign (true) or sell sign (false)
+     */
+    public void changeBuySell(ShopSign shop, boolean isBuySign) {
+        shop.setBuySign(isBuySign);
+        shopSigns.put(shop.getLocation(), shop); // update in loaded memory
+        storage.saveSign(shop);
+        SignDisplayManager.updateSign(shop); // update the sign text to reflect the new scope
+    }
+
+    public ShopSign getShopSign(Location loc) {
         return shopSigns.get(loc);
     }
 

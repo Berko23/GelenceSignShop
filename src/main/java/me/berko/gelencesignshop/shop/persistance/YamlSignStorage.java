@@ -54,9 +54,11 @@ public class YamlSignStorage implements SignStorageFactory {
         saveToFile();
     }
 
+
+
     @Override
-    public Map<String, ShopSign> loadAll() {
-        Map<String, ShopSign> map = new HashMap<>();
+    public Map<Location, ShopSign> loadAll() {
+        Map<Location, ShopSign> map = new HashMap<>();
 
         for (String key : config.getKeys(false)) {
             Location loc = deserializeLocation(key);
@@ -66,7 +68,7 @@ public class YamlSignStorage implements SignStorageFactory {
             var item = config.getItemStack(key + ".item");
 
             ShopSign sign = new ShopSign(loc, price, buy, waiting, item);
-            map.put(key, sign);
+            map.put(loc, sign);
         }
 
         return map;

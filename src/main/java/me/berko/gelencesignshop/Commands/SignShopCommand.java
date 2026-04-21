@@ -5,6 +5,7 @@ import me.berko.gelencesignshop.Commands.subCommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,10 +20,11 @@ public class SignShopCommand implements CommandExecutor {
         subcommands.put("datareload", new DataReloadCommand());
         subcommands.put("datafix", new DataFixCommand());
         subcommands.put("datacheck", new DataCheckCommand());
+        subcommands.put("edit", new EditCommand());
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NonNull CommandSender sender, @NonNull Command command, @NonNull String label, String[] args) {
         if (args.length == 0) {
             sender.sendMessage("§eUsage: /signshop <subcommand> (use '/signshop help' for more information)");
             return true;
