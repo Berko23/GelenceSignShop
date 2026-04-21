@@ -22,10 +22,6 @@ public class SignShopTabCompleter implements TabCompleter {
         subcommands.put("edit", new EditCommand());
     }
 
-    public Map<String, SubCommand> getSubcommands() {
-        return subcommands;
-    }
-
     @Override
     public List<String> onTabComplete(@NonNull CommandSender sender, @NonNull Command command, @NonNull String alias, String[] args) {
         if (args.length == 1) {
@@ -38,23 +34,40 @@ public class SignShopTabCompleter implements TabCompleter {
         }
 
         if (args.length > 1) {
-            List<String> arg2 = new ArrayList<>();
-
-            if(args[0].equals("helpsetup")) {
-                // For `/signshop helpsetup <page>`, `partial` is the currently typed page fragment.
-                String partial = args[1].toLowerCase();
-                List<String> options = Arrays.asList("1", "2", "3");
-                for(String option : options) {
-                    if(option.startsWith(partial)) {
-                        arg2.add(option);
-                    }
-                }
-            }
-
-            arg2.add("");
-            return arg2;
+            return getArg2(args);
         }
 
         return Collections.emptyList();
+    }
+
+    private static List<String> getArg2(String[] args) {
+        List<String> arg2 = new ArrayList<>();
+
+        switch (args[0]) {
+            case "helpsetup":
+                // For `/signshop helpsetup <page>`, `partialHelp` is the currently typed page fragment.
+                String partialHelp = args[1].toLowerCase();
+                List<String> options = Arrays.asList("1", "2", "3");
+                for(String option : options) {
+                    if(option.startsWith(partialHelp)) {
+                        arg2.add(option);
+                    }
+                }
+                break;
+
+            case "edit":
+                if (args.length == 2) {
+                    String partialEdit = args[1].toLowerCase();
+                    List<String> editOptions = Arrays.asList("price", "buysell", "item", "help");
+                    for(String option : editOptions) {
+                        if(option.startsWith(partialEdit)) {
+                            arg2.add(option);
+                        }
+                    }
+                }
+                break;
+        }
+
+        return arg2;
     }
 }
