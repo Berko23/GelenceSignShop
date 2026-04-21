@@ -19,6 +19,7 @@ public class SignShopCommand implements CommandExecutor {
         subcommands.put("datareload", new DataReloadCommand());
         subcommands.put("datafix", new DataFixCommand());
         subcommands.put("datacheck", new DataCheckCommand());
+        subcommands.put("edit", new EditCommand());
     }
 
     @Override

@@ -2,6 +2,7 @@ package me.berko.gelencesignshop.shop;
 
 import me.berko.gelencesignshop.shop.persistance.SignStorageFactory;
 import me.berko.gelencesignshop.shop.persistance.YamlSignStorage;
+import me.berko.gelencesignshop.util.SignDisplayManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
@@ -57,7 +58,7 @@ public class ShopSignManager {
     }
 
     /**
-     * Unbind the item from the shop and mark it as waiting again. This can be used to reset a shop sign if the owner wants to change the item being sold/bought.
+     * Unbind the item from the shop and mark it as waiting again. This updates the sign block's display text too.
      * @param shop The shop sign to unbind
      */
     public void unbindItem(ShopSign shop) {
@@ -65,10 +66,11 @@ public class ShopSignManager {
         shop.setWaiting(true);
         shopSigns.put(shop.getLocation(), shop); // update in loaded memory
         storage.saveSign(shop); // resave to file
+        SignDisplayManager.updateSign(shop); // update the sign text to reflect the new price
     }
 
     /**
-     * Change the buy/sell price of a shop sign. This can be used for admin adjustments or if you want to implement a feature for shop owners to change their prices.
+     * Change the buy/sell price of a shop sign and update the sign block's display text.
      * @param shop The shop sign to update
      * @param newValue The new buy/sell price
      */
@@ -76,10 +78,11 @@ public class ShopSignManager {
         shop.setValue(newValue);
         shopSigns.put(shop.getLocation(), shop); // update in loaded memory
         storage.saveSign(shop);
+        SignDisplayManager.updateSign(shop); // update the sign text to reflect the new price
     }
 
     /**
-     * Change whether a shop sign is a buy or sell sign. This can be used for admin adjustments or if you want to implement a feature for shop owners to switch between buying and selling.
+     * Change whether a shop sign is a buy or sell sign and update the sign block's display text.
      * @param shop The shop sign to update
      * @param isBuySign Whether the sign should be a buy sign (true) or sell sign (false)
      */
@@ -87,9 +90,10 @@ public class ShopSignManager {
         shop.setBuySign(isBuySign);
         shopSigns.put(shop.getLocation(), shop); // update in loaded memory
         storage.saveSign(shop);
+        SignDisplayManager.updateSign(shop); // update the sign text to reflect the new scope
     }
 
-    public ShopSign get(Location loc) {
+    public ShopSign getShopSign(Location loc) {
         return shopSigns.get(loc);
     }
 

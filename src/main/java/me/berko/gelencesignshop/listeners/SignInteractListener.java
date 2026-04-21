@@ -9,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,7 +32,7 @@ public class SignInteractListener implements Listener {
         // get the shop data (if there is any)
         ShopSignManager manager = GelenceSignShop.getInstance().getShopSignManager();
         Player player = event.getPlayer();
-        ShopSign shop = manager.get(block.getLocation());
+        ShopSign shop = manager.getShopSign(block.getLocation());
 
         if (shop == null) {
             return;

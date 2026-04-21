@@ -19,6 +19,7 @@ public class SignShopTabCompleter implements TabCompleter {
         subcommands.put("datareload", new DataReloadCommand());
         subcommands.put("datafix", new DataFixCommand());
         subcommands.put("datacheck", new DataCheckCommand());
+        subcommands.put("edit", new EditCommand());
     }
 
     public Map<String, SubCommand> getSubcommands() {
